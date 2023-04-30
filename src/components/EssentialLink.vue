@@ -11,11 +11,7 @@
   </q-item>
 </template>
 
-<style>
-body {
-  background-color: goldenrod;
-}
-</style>
+<style></style>
 
 <script>
 import { defineComponent } from "vue";
