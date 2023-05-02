@@ -1,80 +1,51 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+  <div class="navbar">
+    <div class="linha">
+      Pokédex<img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1200px-Pok%C3%A9_Ball_icon.svg.png"
+        alt=""
+        style="width: 50px; height: 50px"
+      />
+    </div>
+  </div>
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  <div class="pagina-inicial row justify-center">
+    <h1 id="titulo">{{ titulo }}</h1>
+  </div>
+  <div class="pagina-inicial row justify-center">
+    <button @click="titulo = 'alterado'">Mudar o texto</button>
+    <button @click="titulo = 'mudou o valor'">Mudar o texto 2</button>
+    <button @click="titulo = 'Pokédex'">Voltar ao valor inicial</button>
+  </div>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+<style scoped>
+.navbar {
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: flex-end;
+}
+.linha {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+</style>
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-]
+<script>
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
-  components: {
-    EssentialLink
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-
+  setup() {
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      titulo: ref("Pokédex"),
+    };
+  },
+});
 </script>
