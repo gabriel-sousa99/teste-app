@@ -10,16 +10,63 @@
   </div>
 
   <div class="pagina-inicial row justify-center">
-    <h1 id="titulo">{{ titulo }}</h1>
-  </div>
-  <div class="pagina-inicial row justify-center">
-    <button @click="titulo = 'alterado'">Mudar o texto</button>
-    <button @click="titulo = 'mudou o valor'">Mudar o texto 2</button>
-    <button @click="titulo = 'Pokédex'">Voltar ao valor inicial</button>
+    <div class="cartao" v-for="pokemon in resultado" :key="pokemon?.name">
+      <p>{{ pokemon?.name.toUpperCase() }}</p>
+      <img :src="pokemon.imagem" alt="" style="height: 150px" />
+    </div>
   </div>
 </template>
 
+<script>
+import { defineComponent, ref } from "vue";
+
+const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10";
+
+export default defineComponent({
+  name: "MainLayout",
+  setup() {
+    return {
+      resultado: ref([]),
+    };
+  },
+  methods: {
+    async pegarPokemon() {
+      const resposta = await fetch(url);
+      const dados = await resposta.json();
+      this.resultado = dados.results;
+      for (const pokemon of this.resultado) {
+        const resposta = await fetch(pokemon.url);
+        const dados = await resposta.json();
+        pokemon.imagem = dados.sprites.other["official-artwork"].front_default;
+      }
+    },
+  },
+  async mounted() {
+    await this.pegarPokemon();
+  },
+});
+</script>
+
 <style scoped>
+.cartao {
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: black 0px 0px 10px;
+  align-items: center;
+}
+.cartao a {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+}
 .navbar {
   background-color: #f44336;
   color: white;
@@ -35,17 +82,3 @@
   align-items: center;
 }
 </style>
-
-<script>
-import { defineComponent, ref } from "vue";
-
-export default defineComponent({
-  name: "MainLayout",
-
-  setup() {
-    return {
-      titulo: ref("Pokédex"),
-    };
-  },
-});
-</script>
